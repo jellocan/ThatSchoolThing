@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour {
 	Animator anime;
 	Rigidbody2D rb;
 
+    bool canShoot;
+    public GameObject projectile;
+    public Transform gun;
+
 	void Start ()
 	{
 		rb = GetComponent<Rigidbody2D>();
@@ -22,6 +26,10 @@ public class PlayerController : MonoBehaviour {
 	void Update ()
 	{
         touchingfloor = Physics2D.OverlapCircle(groundr.transform.position, radii, ground);
+        if (Input.GetKey(KeyCode.Space)&&canShoot)
+        {
+            GameObject bullet = (GameObject) Instantiate(projectile, gun.position, Quaternion.identity);
+        }
         if (Input.GetKey(KeyCode.D))
         {
             rb.velocity = new Vector2(speedForce, rb.velocity.y);
@@ -43,6 +51,7 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.W)&& touchingfloor== true)
         {
+            anime.SetInteger("animp", 2);
             rb.AddForce(jumpV, ForceMode2D.Force);
         }
         
