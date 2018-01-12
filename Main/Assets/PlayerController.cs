@@ -16,7 +16,9 @@ public class PlayerController : MonoBehaviour {
     bool canShoot;
     public GameObject projectile;
     public Transform gun;
-
+    public float velocity;
+    public float time = 1;
+    float timer;
 	void Start ()
 	{
 		rb = GetComponent<Rigidbody2D>();
@@ -26,9 +28,22 @@ public class PlayerController : MonoBehaviour {
 	void Update ()
 	{
         touchingfloor = Physics2D.OverlapCircle(groundr.transform.position, radii, ground);
-        if (Input.GetKey(KeyCode.Space)&&canShoot)
+        if (canShoot == false)
         {
-            GameObject bullet = (GameObject) Instantiate(projectile, gun.position, Quaternion.identity);
+            timer = Time.deltaTime;
+
+        }
+        if (timer < 0)
+        {
+            canShoot = true;
+            timer = time;
+        }
+                
+        if (Input.GetKey(KeyCode.E)&&canShoot)
+        {
+           GameObject bullet = (GameObject) Instantiate(projectile, gun.position, Quaternion.identity);
+           bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity*gameObject.transform.localScale.x, 0);
+            canShoot = false;
         }
         if (Input.GetKey(KeyCode.D))
         {
