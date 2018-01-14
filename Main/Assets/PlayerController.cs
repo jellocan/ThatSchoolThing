@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject projectile;
     public Transform gun;
     public float velocity;
-    public float time = 1;
+    public float time = 1f;
     float timer;
 	void Start ()
 	{
@@ -28,9 +28,9 @@ public class PlayerController : MonoBehaviour {
 	void Update ()
 	{
         touchingfloor = Physics2D.OverlapCircle(groundr.transform.position, radii, ground);
-        if (canShoot == false)
+        if (!canShoot)
         {
-            timer = Time.deltaTime;
+            timer -= Time.deltaTime;
 
         }
         if (timer < 0)
